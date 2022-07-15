@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.ui.AppBarConfiguration
-import com.google.android.material.snackbar.Snackbar
 import com.mungaicodes.thenotepad.data.DataManager
 import com.mungaicodes.thenotepad.databinding.ActivityNoteListBinding
 
@@ -36,7 +34,7 @@ class NoteListActivity : AppCompatActivity() {
         noteList.setOnItemClickListener { parent, view, position, id ->
 
             val myIntent = Intent(this, MainActivity::class.java)
-            myIntent.putExtra(EXTRA_NOTE_POSITION, position)
+            myIntent.putExtra(NOTE_POSITION, position)
             startActivity(myIntent)
         }
 
