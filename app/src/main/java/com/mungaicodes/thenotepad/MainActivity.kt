@@ -7,11 +7,14 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.mungaicodes.thenotepad.data.DataManager
+import com.mungaicodes.thenotepad.model.CourseInfo
+import com.mungaicodes.thenotepad.model.NoteInfo
 import android.os.Bundle as Bundle1
 
 class MainActivity : AppCompatActivity() {
 
     private var notePosition = POSITION_NOT_SET
+
 
     override fun onCreate(savedInstanceState: Bundle1?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +29,14 @@ class MainActivity : AppCompatActivity() {
         val coursesSpinner: Spinner = findViewById(R.id.coursesSpinner)
         coursesSpinner.adapter = adapterCourses
 
-        notePosition = intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET)
+        notePosition = savedInstanceState?.getInt(NOTE_POSITION, POSITION_NOT_SET) ?:
+            intent.getIntExtra(NOTE_POSITION, POSITION_NOT_SET)
 
         if (notePosition != POSITION_NOT_SET) {
             displayNote()
+        } else {
+            DataManager.notes.add(NoteInfo())
+            notePosition = DataManager.notes.lastIndex
         }
 
     }
@@ -44,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         noteTitle.setText(note.title)
         noteText.setText(note.text)
 
-        val coursePosition = DataManager.courses.values.indexOf(note.courseInfo)
+        val coursePosition = DataManager.courses.values.indexOf(note.course)
         courseSpinner.setSelection(coursePosition)
     }
 
@@ -98,6 +105,28 @@ class MainActivity : AppCompatActivity() {
         }
         return super.onPrepareOptionsMenu(menu)
     }
+
+    override fun onPause() {
+        super.onPause()
+        saveNote()
+    }
+
+    private fun saveNote() {
+        val note = DataManager.notes[notePosition]
+        val noteTitle: TextView = findViewById(R.id.textNoteTitle)
+        note.title = noteTitle.text.toString()
+        val noteText: TextView = findViewById(R.id.textNoteText)
+        note.text = noteText.text.toString()
+        val courseSpinner: Spinner = findViewById(R.id.coursesSpinner)
+        note.course = courseSpinner.selectedItem as CourseInfo
+
+    }
+
+    override fun onSaveInstanceState(outState: android.os.Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(NOTE_POSITION, notePosition)
+    }
+
 
 
 }

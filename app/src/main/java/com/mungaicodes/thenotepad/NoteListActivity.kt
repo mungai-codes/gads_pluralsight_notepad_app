@@ -7,12 +7,11 @@ import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 import com.mungaicodes.thenotepad.data.DataManager
 import com.mungaicodes.thenotepad.databinding.ActivityNoteListBinding
+import com.mungaicodes.thenotepad.model.NoteInfo
 
 class NoteListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNoteListBinding
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +37,12 @@ class NoteListActivity : AppCompatActivity() {
             startActivity(myIntent)
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val notesList: ListView = findViewById(R.id.listNotes)
+        (notesList.adapter as ArrayAdapter<NoteInfo>).notifyDataSetChanged()
     }
 
 
