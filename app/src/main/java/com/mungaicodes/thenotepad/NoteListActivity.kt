@@ -5,7 +5,10 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.mungaicodes.thenotepad.data.DataManager
+import com.mungaicodes.thenotepad.data.NoteRecyclerAdapter
 import com.mungaicodes.thenotepad.databinding.ActivityNoteListBinding
 import com.mungaicodes.thenotepad.model.NoteInfo
 
@@ -21,28 +24,25 @@ class NoteListActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        binding.fab.setOnClickListener { view ->
+        binding.fab.setOnClickListener {
             val actIntent = Intent(this, MainActivity::class.java)
             startActivity(actIntent)
         }
 
-        val noteList: ListView = findViewById(R.id.listNotes)
-        noteList.adapter = ArrayAdapter(this,
-        android.R.layout.simple_list_item_1, DataManager.notes)
+        //associating a layout manager with the recycler view
+        val recyclerView: RecyclerView = findViewById(R.id.listItemsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        noteList.setOnItemClickListener { parent, view, position, id ->
+        //associating NoteRecyclerAdapter with the recycler view
+        recyclerView.adapter = NoteRecyclerAdapter(this, DataManager.notes)
 
-            val myIntent = Intent(this, MainActivity::class.java)
-            myIntent.putExtra(NOTE_POSITION, position)
-            startActivity(myIntent)
-        }
 
     }
 
     override fun onResume() {
         super.onResume()
-        val notesList: ListView = findViewById(R.id.listNotes)
-        (notesList.adapter as ArrayAdapter<NoteInfo>).notifyDataSetChanged()
+        val recyclerView: RecyclerView = findViewById(R.id.listItemsRecyclerView)
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
 
