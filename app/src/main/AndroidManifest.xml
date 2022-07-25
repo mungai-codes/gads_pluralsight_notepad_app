@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.mungaicodes.thenotepad" >
+    package="com.mungaicodes.thenotepad">
 
     <application
         android:allowBackup="true"
@@ -12,15 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TheNotepad"
-        tools:targetApi="31" >
+        tools:targetApi="31">
         <activity
-            android:name=".MainActivity2"
-            android:exported="false" />
-        <activity
-            android:name=".NoteListActivity"
+            android:name=".ItemsActivity"
             android:exported="true"
-            android:label="TheNotePad"
-            android:theme="@style/Theme.TheNotepad.NoActionBar" >
+            android:label="@string/title_activity_items"
+            android:theme="@style/Theme.TheNotepad.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,10 +25,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".NoteListActivity"
+            android:exported="true"
+            android:label="TheNotePad"
+            android:theme="@style/Theme.TheNotepad.NoActionBar">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="Edit Note" >
-        </activity>
+            android:label="Edit Note" />
     </application>
 
 </manifest>
